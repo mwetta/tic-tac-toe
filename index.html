@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
     <title>Tic-Tac-Toe</title>
 </head>
 
@@ -15,6 +16,7 @@
             <h1>Tic Tac Toe</h1>
         </div>
         <div class="gameboard">
+            <div id="0" class="space">X</div>
             <div id="1" class="space">X</div>
             <div id="2" class="space">X</div>
             <div id="3" class="space">X</div>
@@ -23,7 +25,10 @@
             <div id="6" class="space">X</div>
             <div id="7" class="space">X</div>
             <div id="8" class="space">X</div>
-            <div id="9" class="space">X</div>
+        </div>
+        <div class="turns">
+            <button id="x">x</button>
+            <button id="o">o</button>
         </div>
     </div>
     <div class="footer">Created by Tualha as part of The Odin Project</div>

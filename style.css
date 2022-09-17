@@ -40,3 +40,16 @@ body {
     position: absolute;
     bottom: 0;
 }
+
+.turns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.your-turn {
+    background-color: red;
+    filter: drop-shadow(0 0 0.75rem rgb(255, 0, 0));
+}
