@@ -2,20 +2,19 @@ const gameBoard = (() => {
     'use strict';    
 
     const spaces = 
-        [undefined, undefined, undefined,
-        undefined, undefined, undefined,
-        undefined, undefined, undefined];
+        [" ", " ", " ",
+        " ", " ", " ",
+        " ", " ", " "];
     
     let turn = 0;
+    let currentPlayer = 'x';
     
     const boardSpaces = document.querySelectorAll('.space');
     const playerXTurn = document.querySelector('#x');
     const playerOTurn = document.querySelector('#o');
 
-    console.log(boardSpaces);
-
     const checkSpace = (spaceId) => {
-    if (spaces[spaceId] == undefined) {
+    if (spaces[spaceId] == " ") {
         checkTurn(spaceId);
     } else {
         alert(`You can't play in that space`);
@@ -23,23 +22,38 @@ const gameBoard = (() => {
 
     boardSpaces.forEach((boardSpace) => {
         boardSpace.addEventListener('click', () => {
-            console.log(boardSpace.id);
             turn++;
             checkSpace(boardSpace.id);
         })
     })
 
-    const checkTurn = () => {
+    const checkTurn = (spaceId) => {
         if (turn % 2 == 0 || turn == 0) {
-            playerXTurn.classList.add("your-turn");
-            playerOTurn.classList.remove("your-turn");
+            currentPlayer = 'x';
+            setTurn(spaceId,currentPlayer);
         } else {
-            playerOTurn.classList.add("your-turn");
-            playerXTurn.classList.remove("your-turn");
+            currentPlayer = 'o';
+            setTurn(spaceId, currentPlayer);
         }
     }
 
-    const markSpace = () => {
+    const setTurn = (spaceId, currentPlayer) => {
+        if (currentPlayer == 'x') {
+            playerXTurn.classList.add("your-turn");
+            playerOTurn.classList.remove("your-turn");
+            // can you do this by checking for id, etc matches current player?
+            markSpace(spaceId, currentPlayer)
+        } else {
+            playerOTurn.classList.add("your-turn");
+            playerXTurn.classList.remove("your-turn");
+            markSpace(spaceId, currentPlayer)
+        }
+    }
+
+    const markSpace = (spaceId, currentPlayer) => {
+       let currentPlay = document.getElementById(`${spaceId}`);
+       currentPlay.textContent = `${currentPlayer}`;
+       // this works to push to HTML but messes with the padding - need to troubleshoot CSS
     };
 
         
