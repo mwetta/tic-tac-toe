@@ -30,7 +30,48 @@ const gameBoard = (() => {
         let currentPlay = turnCounter.getCurrentPlayer();
         currentPlay.setArray(spaceId);
     }
-    return {checkSpace};
+
+    const checkWin = (currentPlayer, spaceId) => {
+        let winner;
+        if(spaces[0] === spaces[1] && spaces[1] === spaces[2]){
+            winner = turnCounter.getCurrentPlayer();
+            setWinner(winner);
+        } else if(spaces[3] === spaces[4] && spaces[4] === spaces[5]) {
+            winner = turnCounter.getCurrentPlayer();
+            setWinner(winner);
+        } else if (spaces[6] === spaces[7] && spaces[7] === spaces[8]) {
+            winner = turnCounter.getCurrentPlayer();
+            setWinner(winner);
+        }
+        else if (spaces[0] === spaces[4] && spaces[4] === spaces[8]) {
+            winner = turnCounter.getCurrentPlayer();
+            setWinner(winner);
+        }
+        else if (spaces[2] === spaces[4] && spaces[4] === spaces[6]) {
+            winner = turnCounter.getCurrentPlayer();
+            setWinner(winner);
+        }
+        else if (spaces[0] === spaces[3] && spaces[3] === spaces[6]) {
+            winner = turnCounter.getCurrentPlayer();
+            setWinner(winner);
+        }
+        else if (spaces[1] === spaces[4] && spaces[4] === spaces[7]) {
+            winner = turnCounter.getCurrentPlayer();
+            setWinner(winner);
+        }
+        else if (spaces[2] === spaces[5] && spaces[5] === spaces[8]) {
+            winner = turnCounter.getCurrentPlayer();
+            setWinner(winner);
+        } else {
+            turnCounter.checkTurn();
+        };
+    }
+
+    const setWinner = (winner) => {
+        alert(`Game is over. Player ${winner.getName()} won`);
+    };
+
+    return {checkSpace, checkWin};
 })();
 
 const Player =  (name, sign) => {
@@ -45,24 +86,10 @@ const Player =  (name, sign) => {
         plays.push(currentPlay);
         if (plays.length >= 3) {
             console.log(plays);
-            checkWin(currentPlay);
+            gameBoard.checkWin();
         } else {
             turnCounter.checkTurn();
         }
-    }
-
-    // checkWin not working as implemented
-    const checkWin = (currentPlay) => {
-        console.log("Check for winner");
-        console.log(currentPlay);
-        switch (currentPlay) {
-            case 0:
-                if (plays.includes(1) == true && plays.includes(2) == true)
-                {
-                    console.log("Winner");
-                };
-            break;
-        };
     }
 
     const plays = [];
