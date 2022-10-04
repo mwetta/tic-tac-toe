@@ -1,67 +1,110 @@
 const gameBoard = (() => {
-    'use strict';    
-
     const spaces = 
-        [" ", " ", " ",
-        " ", " ", " ",
-        " ", " ", " "];
-    
-    let turn = 0;
-    let currentPlayer = 'x';
-    
+    [" ", " ", " ",
+    " ", " ", " ",
+    " ", " ", " "];
+
     const boardSpaces = document.querySelectorAll('.space');
-    const playerXTurn = document.querySelector('#x');
-    const playerOTurn = document.querySelector('#o');
-
-    const checkSpace = (spaceId) => {
-    if (spaces[spaceId] == " ") {
-        checkTurn(spaceId);
-    } else {
-        alert(`You can't play in that space`);
-    }}
-
     boardSpaces.forEach((boardSpace) => {
         boardSpace.addEventListener('click', () => {
-            turn++;
-            checkSpace(boardSpace.id);
+            let currentPlay = turnCounter.getCurrentPlayer();
+            currentPlay.play(boardSpace.id, currentPlay.getSign());
         })
     })
 
-    const checkTurn = (spaceId) => {
-        if (turn % 2 == 0 || turn == 0) {
-            currentPlayer = 'x';
-            setTurn(spaceId,currentPlayer);
+    const checkSpace = (spaceId, sign) => {
+        if (spaces[spaceId] == " ") {
+            markSpace(spaceId, sign)
         } else {
-            currentPlayer = 'o';
-            setTurn(spaceId, currentPlayer);
+            alert(`You can't play in that space`);
+        }}
+
+    const markSpace = (spaceId, sign) => {
+        let currentPlay = document.getElementById(`${spaceId}`);
+        currentPlay.textContent = `${sign}`;
+        setArray(spaceId, sign);
         }
+    
+    const setArray = (spaceId, currentPlayer) => {
+        spaces[spaceId] = currentPlayer;
+        let currentPlay = turnCounter.getCurrentPlayer();
+        currentPlay.setArray(spaceId);
     }
-
-    const setTurn = (spaceId, currentPlayer) => {
-        if (currentPlayer == 'x') {
-            playerXTurn.classList.add("your-turn");
-            playerOTurn.classList.remove("your-turn");
-            // can you do this by checking for id, etc matches current player?
-            markSpace(spaceId, currentPlayer)
-        } else {
-            playerOTurn.classList.add("your-turn");
-            playerXTurn.classList.remove("your-turn");
-            markSpace(spaceId, currentPlayer)
-        }
-    }
-
-    const markSpace = (spaceId, currentPlayer) => {
-       let currentPlay = document.getElementById(`${spaceId}`);
-       currentPlay.textContent = `${currentPlayer}`;
-       // this works to push to HTML but messes with the padding - need to troubleshoot CSS
-    };
-
-        
-    return {markSpace, checkTurn};
+    return {checkSpace};
 })();
 
-gameBoard.checkTurn();
+const Player =  (name, sign) => {
+    const getName = () => name;
+    const getSign = () => sign;
 
-const Player = () => {
+    const play = (spaceId, sign) => {
+        gameBoard.checkSpace(spaceId, sign);
+    }
 
+    const setArray = (currentPlay) => {
+        plays.push(currentPlay);
+        if (plays.length >= 3) {
+            console.log(plays);
+            checkWin(currentPlay);
+        } else {
+            turnCounter.checkTurn();
+        }
+    }
+
+    // checkWin not working as implemented
+    const checkWin = (currentPlay) => {
+        console.log("Check for winner");
+        console.log(currentPlay);
+        switch (currentPlay) {
+            case 0:
+                if (plays.includes(1) == true && plays.includes(2) == true)
+                {
+                    console.log("Winner");
+                };
+            break;
+        };
+    }
+
+    const plays = [];
+
+    return {play, getSign, getName, setArray};
 }
+
+const turnCounter = (() =>{
+    let turn = 0;
+    let currentPlayer = undefined;
+    let playerX;
+    let playerO;
+    const getCurrentPlayer = () => currentPlayer;
+    const checkTurn = () => {
+        if (turn == 0){
+            let nameX = prompt("What's your name?");
+            ++turn;
+            createPlayerX(`${nameX}`);
+        } 
+        else if (turn == 1){
+            nameO = prompt("What's your name?");
+            ++turn;
+            createPlayerO(`${nameO}`);
+        }
+        else if (turn % 2 == 0) {
+            currentPlayer = playerX;
+            ++turn;
+        } else {
+            currentPlayer = playerO;
+            ++turn;
+        }
+    };
+    const createPlayerX = (name) => {
+        playerX = Player(name, 'X');
+        currentPlayer = playerX;
+    }
+    const createPlayerO = (name) => {
+        playerO = Player(name, 'O');
+        currentPlayer = playerO;
+    }
+
+    return {checkTurn, getCurrentPlayer};
+})();
+
+turnCounter.checkTurn();
