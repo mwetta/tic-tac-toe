@@ -31,7 +31,7 @@ const gameBoard = (() => {
         currentPlay.setArray(spaceId);
     }
 
-    const checkWin = (currentPlayer, spaceId) => {
+    const checkWin = () => {
         let winner;
         if(spaces[0] === spaces[1] && spaces[1] === spaces[2]){
             winner = turnCounter.getCurrentPlayer();
@@ -125,10 +125,31 @@ const turnCounter = (() =>{
     const createPlayerX = (name) => {
         playerX = Player(name, 'X');
         currentPlayer = playerX;
+        setName(name, 'player-x');
     }
     const createPlayerO = (name) => {
         playerO = Player(name, 'O');
         currentPlayer = playerO;
+        setName(name, 'player-o');
+    }
+
+    const setName = (name, id) => {
+        let nameDisplay = document.getElementById(`${id}`);
+        nameDisplay.textContent = `${name}`
+        setTurn(currentPlayer);
+    }
+
+    setTurn = (currentPlayer) => {
+        const playerXTurn = document.querySelector('#x');
+        const playerOTurn = document.querySelector('#o');
+
+        if (currentPlayer == playerX){
+            playerXTurn.classList.add("active");
+            playerOTurn.classList.remove("active");
+        } else if (currentPlayer == playerO){
+            playerOTurn.classList.add("active");
+            playerXTurn.classList.remove("active");
+        }
     }
 
     return {checkTurn, getCurrentPlayer};
