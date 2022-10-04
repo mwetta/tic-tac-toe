@@ -41,6 +41,7 @@ h2 {
     filter: invert(100%) sepia(0%) saturate(7487%) hue-rotate(327deg) brightness(106%) contrast(101%);
 }
 
+input[type=button],
 button {
     border-radius: 20px;
     padding: 10px;
@@ -54,6 +55,32 @@ button {
 
 .active {
     background-color: var(--powder-blue);
+}
+
+ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: auto;
+
+}
+
+input[type=text] {
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    background-color: white;
+}
+
+.standard-width {
+    width: 100px;
+}
+
+#x,
+#o {
+    width: 50px;
 }
 
 /* Structure */
@@ -137,11 +164,9 @@ body {
     justify-content: center;
 }
 
+
 #player-x,
-#player-o {
-    justify-self: center;
-    align-self: center;
-}
+#player-o {}
 
 .footer {
     position: fixed;
@@ -157,8 +182,53 @@ body {
 
 .turns {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 10px;
     margin: 10px;
     padding: 10px;
+}
+
+/* Modal */
+
+#name-modal {
+    display: none;
+}
+
+.modal {
+    position: fixed;
+    z-index: 2;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 440px;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.cancel {
+    background-color: var(--maximum-red);
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }

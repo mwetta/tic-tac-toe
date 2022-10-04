@@ -16,7 +16,7 @@
             <div class="header">
                 <h1><img class="white" src="icons/tictactoe.svg" alt="">Tic Tac Toe</h1>
                 <div class="nav">
-                    <button id="myBtn" class="standard-width">Add Player Names</button>
+                    <button id="add-names-button">Add Player Names</button>
                     <button id="reset" class="standard-width">Reset</button>
                 </div>
             </div>
@@ -33,10 +33,21 @@
                     <div id="8" class="space"></div>
                 </div>
                 <div class="turns">
-                    <button id="x">x</button>
-                    <div id="player-x"></div>
-                    <button id="o">o</button>
-                    <div id="player-o"></div>
+                    <div id="player-x-turn">
+                        <button id="x">x</button>
+                        <div id="player-x"></div>
+                        <!-- <form method="post">
+                            <label for="player-x-name"></label><input type="text" name="player-x-name"
+                                id="player-x-name">
+                            <input type="button" value="Set" id="sumit-player-x">
+                        </form> -->
+                    </div>
+                    <div id="player-o-turn">
+                        <button id="o">o</button>
+                        <div id="player-o"></div>
+                        <!-- <label for="player-x-name">Player 2</label><input type="text" value="Player 2 Name"
+                            name="player-x-name" id="player-x-name"> -->
+                    </div>
                 </div>
             </div>
         </div>
