@@ -85,7 +85,7 @@ input[type=text] {
 
 /* Structure */
 body {
-    background: white;
+    background-color: hsl(225, 24%, 93%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -151,6 +151,7 @@ body {
     background: white;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
     filter: drop-shadow(0 0 0.75rem #989898);
     justify-content: center;
 
