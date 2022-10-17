@@ -1,10 +1,7 @@
 
 const gameBoard = (() => {
-    const spaces = 
-    [" ", " ", " ",
-    " ", " ", " ",
-    " ", " ", " "];
-
+    const spaces = new Array(9).fill("");
+    
     const boardSpaces = document.querySelectorAll('.space');
     boardSpaces.forEach((boardSpace) => {
         boardSpace.addEventListener('click', () => {
@@ -14,7 +11,7 @@ const gameBoard = (() => {
     })
 
     const checkSpace = (spaceId, sign) => {
-        if (spaces[spaceId] == " ") {
+        if (spaces[spaceId] == "") {
             markSpace(spaceId, sign)
         } else {
             alert(`You can't play in that space`);
@@ -32,47 +29,40 @@ const gameBoard = (() => {
         currentPlay.setArray(spaceId);
     }
 
+    const winConditions = [
+        [0, 1, 2],
+        [3, 4, 5], 
+        [6, 7, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8]
+    ]
+
     const checkWin = () => {
-        let winner;
-        if(spaces[0] === spaces[1] && spaces[1] === spaces[2]){
-            winner = turnCounter.getCurrentPlayer();
-            setWinner(winner);
-        } else if(spaces[3] === spaces[4] && spaces[4] === spaces[5]) {
-            winner = turnCounter.getCurrentPlayer();
-            setWinner(winner);
-        } else if (spaces[6] === spaces[7] && spaces[7] === spaces[8]) {
-            winner = turnCounter.getCurrentPlayer();
-            setWinner(winner);
-        }
-        else if (spaces[0] === spaces[4] && spaces[4] === spaces[8]) {
-            winner = turnCounter.getCurrentPlayer();
-            setWinner(winner);
-        }
-        else if (spaces[2] === spaces[4] && spaces[4] === spaces[6]) {
-            winner = turnCounter.getCurrentPlayer();
-            setWinner(winner);
-        }
-        else if (spaces[0] === spaces[3] && spaces[3] === spaces[6]) {
-            winner = turnCounter.getCurrentPlayer();
-            setWinner(winner);
-        }
-        else if (spaces[1] === spaces[4] && spaces[4] === spaces[7]) {
-            winner = turnCounter.getCurrentPlayer();
-            setWinner(winner);
-        }
-        else if (spaces[2] === spaces[5] && spaces[5] === spaces[8]) {
-            winner = turnCounter.getCurrentPlayer();
-            setWinner(winner);
+        let currentPlayer= turnCounter.getCurrentPlayer();
+        console.log(currentPlayer);
+        let sign = currentPlayer.getSign();
+
+        const checkConditions = winConditions.findIndex((winCondition) => {
+           return winCondition.every((index) => {
+                return (spaces[index] == sign)
+            })
+        });
+
+        if (checkConditions > -1) {
+            winner = currentPlayer;
+            alert(`Game over. ${currentPlayer.getName()} wins.`)
         } else {
             turnCounter.checkTurn();
-        };
+        } 
     }
 
-    const setWinner = (winner) => {
-        alert(`Game is over. Player ${winner.getName()} won`);
+    return {checkSpace, 
+        checkWin,
+        resetSpaces() {spaces = new Array(9).fill("");} 
     };
-
-    return {checkSpace, checkWin};
 })();
 
 const Player =  (name, sign) => {
@@ -87,7 +77,7 @@ const Player =  (name, sign) => {
         plays.push(currentPlay);
         if (plays.length >= 3) {
             console.log(plays);
-            gameBoard.checkWin();
+            gameBoard.checkWin(); 
         } else {
             turnCounter.checkTurn();
         }
@@ -95,7 +85,9 @@ const Player =  (name, sign) => {
 
     const plays = [];
 
-    return {play, getSign, getName, setArray};
+    const getPlays = () => plays;
+
+    return {play, getSign, getName, setArray, getPlays};
 }
 
 const turnCounter = (() =>{
@@ -123,11 +115,13 @@ const turnCounter = (() =>{
             ++turn;
         }
     };
+
     const createPlayerX = (name) => {
         playerX = Player(name, 'X');
         currentPlayer = playerX;
         setName(name, 'player-x');
-    }
+    } // add to event listener
+
     const createPlayerO = (name) => {
         playerO = Player(name, 'O');
         currentPlayer = playerO;
