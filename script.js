@@ -78,8 +78,6 @@ const gameBoard = (() => {
         turnCounter.setPlayers(playerX, playerO);
     }
 
-
-
     const resetSpaces = () => {
         spaces = new Array(9).fill("");
         boardSpaces.forEach((boardSpace) => {
@@ -136,8 +134,8 @@ const turnCounter = (() =>{
     let playerO;
 
     const getCurrentPlayer = () => currentPlayer;
-    // simplify code and add alert to check for draw
-    // can you combine setTurn and checkTurn
+
+    // combine checkTurn and setTurn?
     const checkTurn = () => {
         if (turn == 0 || turn % 2 == 0 ){
             currentPlayer = playerX;
