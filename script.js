@@ -1,7 +1,6 @@
 const gameBoard = (() => {
     let spaces = new Array(9).fill("");
     
-    // simplify the event listener
     const boardSpaces = document.querySelectorAll('.space');
     boardSpaces.forEach((boardSpace) => {
         boardSpace.addEventListener('click', () => {
@@ -47,23 +46,28 @@ const gameBoard = (() => {
     ]
 
     // still need to check for tie
-    const checkWin = () => {
-        let currentPlayer= turnCounter.getCurrentPlayer();
-        console.log(currentPlayer);
-        let sign = currentPlayer.getSign();
-
-        const checkConditions = winConditions.findIndex((winCondition) => {
-           return winCondition.every((index) => {
-                return (spaces[index] == sign)
-            })
-        });
-
-        if (checkConditions > -1) {
-            winner = currentPlayer;
-            alert(`Game over. ${currentPlayer.getName()} wins.`)
+    const checkWin = (plays) => {
+        if (plays > 4) {
+            alert('No one wins. It\'s a tie.'); 
         } else {
-            turnCounter.checkTurn();
-        } 
+            let currentPlayer= turnCounter.getCurrentPlayer();
+            console.log(currentPlayer);
+            let sign = currentPlayer.getSign();
+    
+            const checkConditions = winConditions.findIndex((winCondition) => {
+               return winCondition.every((index) => {
+                    return (spaces[index] == sign)
+                })
+            });
+    
+            if (checkConditions > -1) {
+                winner = currentPlayer;
+                alert(`Game over. ${currentPlayer.getName()} wins.`)
+            } else {
+                turnCounter.checkTurn();
+            } 
+        }
+
     }
 
     const setNames = (playerX, playerO) => {
@@ -100,7 +104,7 @@ const Player =  (name, sign) => {
         plays.push(currentPlay);
         if (plays.length >= 3) {
             console.log(plays);
-            gameBoard.checkWin(); 
+            gameBoard.checkWin(plays.length); 
         } else {
             turnCounter.checkTurn();
         }
@@ -123,18 +127,13 @@ const turnCounter = (() =>{
     // simplify code and add alert to check for draw
     // can you combine setTurn and checkTurn
     const checkTurn = () => {
-        if (turn == 0){
+        if (turn == 0 || turn % 2 == 0 ){
             currentPlayer = playerX;
             ++turn;
             setTurn(currentPlayer);
         } 
-        else if (turn == 1){
+        else if (turn == 1) {
             currentPlayer = playerO; 
-            ++turn;
-            setTurn(currentPlayer);
-        }
-        else if (turn % 2 == 0) {
-            currentPlayer = playerX;
             ++turn;
             setTurn(currentPlayer);
         } else {
