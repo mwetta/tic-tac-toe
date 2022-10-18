@@ -59,9 +59,20 @@ const gameBoard = (() => {
         } 
     }
 
+    const setNames = (playerX, playerO) => {
+        let displayX = document.getElementById('player-x');
+        let displayO = document.getElementById('player-o');
+
+        displayX.textContent = playerX.getName();
+        displayO.textContent = playerO.getName();
+
+        turnCounter.checkTurn();
+    }
+
     return {checkSpace, 
         checkWin,
-        resetSpaces() {spaces = new Array(9).fill("");} 
+        resetSpaces() {spaces = new Array(9).fill("");},
+        setNames
     };
 })();
 
@@ -93,19 +104,16 @@ const Player =  (name, sign) => {
 const turnCounter = (() =>{
     let turn = 0;
     let currentPlayer = undefined;
-    let playerX;
-    let playerO;
+    
     const getCurrentPlayer = () => currentPlayer;
     const checkTurn = () => {
         if (turn == 0){
-            let nameX = prompt("What's your name?");
+            currentPlayer = playerX;
             ++turn;
-            createPlayerX(`${nameX}`);
         } 
         else if (turn == 1){
-            nameO = prompt("What's your name?");
+            currentPlayer = playerO; 
             ++turn;
-            createPlayerO(`${nameO}`);
         }
         else if (turn % 2 == 0) {
             currentPlayer = playerX;
@@ -116,38 +124,55 @@ const turnCounter = (() =>{
         }
     };
 
-    const createPlayerX = (name) => {
-        playerX = Player(name, 'X');
-        currentPlayer = playerX;
-        setName(name, 'player-x');
-    } // add to event listener
-
-    const createPlayerO = (name) => {
-        playerO = Player(name, 'O');
-        currentPlayer = playerO;
-        setName(name, 'player-o');
-    }
-
-    const setName = (name, id) => {
-        let nameDisplay = document.getElementById(`${id}`);
-        nameDisplay.textContent = `${name}`
-        setTurn(currentPlayer);
-    }
-
-    setTurn = (currentPlayer) => {
+    const setTurn = (currentPlayer) => {
         const playerXTurn = document.querySelector('#x');
         const playerOTurn = document.querySelector('#o');
+        console.log(currentPlayer.getSign());
 
-        if (currentPlayer == playerX){
+        if (currentPlayer.getSign() == 'X') {
             playerXTurn.classList.add("active");
             playerOTurn.classList.remove("active");
-        } else if (currentPlayer == playerO){
+        } else if (currentPlayer.getSign() == 'O'){
             playerOTurn.classList.add("active");
             playerXTurn.classList.remove("active");
         }
     }
 
-    return {checkTurn, getCurrentPlayer};
+    return {checkTurn, getCurrentPlayer, setTurn};
 })();
 
-turnCounter.checkTurn();
+const startGame = () => {
+    // default on page load and on reset / new game
+    const modal = document.getElementById("newGame");
+    const btn = document.getElementById("newGameBtn");
+    const span = document.getElementsByClassName("close")[0];
+
+    document.querySelector('#start').addEventListener('click', function() {
+        modal.style.display= "none";
+        createPlayers();
+    });
+    btn.onclick = function(){
+        modal.style.display = "block";
+    }
+    span.onclick = function() {
+        modal.style.display = "none";
+      }
+
+    const createPlayers = () => {
+        let playerXName = document.querySelector('#playerXName').value;
+        let playerOName = document.querySelector('#playerOName').value;
+
+        console.log(playerXName);
+        console.log(playerOName);
+
+        let playerX = Player(playerXName, 'X');
+        let playerO = Player(playerOName, 'O');
+        console.log(playerX);
+        console.log(playerO);
+
+        gameBoard.setNames(playerX, playerO)
+    }
+}
+
+startGame();
+// Global variables

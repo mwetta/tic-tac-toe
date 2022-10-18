@@ -16,11 +16,27 @@
             <div class="header">
                 <h1><img class="white" src="icons/tictactoe.svg" alt="">Tic Tac Toe</h1>
                 <div class="nav">
-                    <button id="add-names-button">Add Player Names</button>
-                    <button id="reset" class="standard-width">Reset</button>
+                    <button id="newGameBtn">New Game</button>
                 </div>
             </div>
             <div class="main">
+                <div id="newGame" class="modal">
+                    <div class="modal-content">
+                        <span class="close">x</span>
+                        <h2>Ready to Play?</h2>
+                        <form method="post">
+                            <ul>
+                                <li><label for="playerXName">Player 1</label>
+                                    <input type="text" name="playerXName" id="playerXName">
+                                </li>
+                                <li><label for="playerOName">Player 2</label>
+                                    <input type="text" name="playerOName" id="playerOName" class="">
+                                </li>
+                            </ul>
+                            <input type="button" id="start" value="Start Game" class="standard-width">
+                        </form>
+                    </div>
+                </div>
                 <div class="gameboard">
                     <div id="0" class="space"></div>
                     <div id="1" class="space"></div>
@@ -33,24 +49,10 @@
                     <div id="8" class="space"></div>
                 </div>
                 <div class="turns">
-                    <div id="player-x-turn">
-                        <button id="x">x</button>
-                        <div id="player-x"></div>
-                        <form method="post">
-                            <label for="player-x-name"></label><input type="text" name="player-x-name"
-                                id="player-x-name" value="Player 1 Name">
-                            <input type="button" value="Set" id="submit-player-x">
-                        </form>
-                    </div>
-                    <div id="player-o-turn">
-                        <button id="o">o</button>
-                        <div id="player-o"></div>
-                        <form method="post">
-                            <label for="player-o-name"></label><input type="text" name="player-o-name"
-                                id="player-o-name" value="Player 1 Name">
-                            <input type="button" value="Set" id="submit-player-o">
-                        </form>
-                    </div>
+                    <button id="x">x</button>
+                    <div id="player-x"></div>
+                    <button id="o">o</button>
+                    <div id="player-o"></div>
                 </div>
             </div>
         </div>
