@@ -66,7 +66,7 @@ const gameBoard = (() => {
         displayX.textContent = playerX.getName();
         displayO.textContent = playerO.getName();
 
-        turnCounter.checkTurn();
+        turnCounter.setPlayers(playerX, playerO);
     }
 
     return {checkSpace, 
@@ -104,30 +104,41 @@ const Player =  (name, sign) => {
 const turnCounter = (() =>{
     let turn = 0;
     let currentPlayer = undefined;
-    
+    let playerX;
+    let playerO;
+
     const getCurrentPlayer = () => currentPlayer;
     const checkTurn = () => {
         if (turn == 0){
             currentPlayer = playerX;
             ++turn;
+            setTurn(currentPlayer);
         } 
         else if (turn == 1){
             currentPlayer = playerO; 
             ++turn;
+            setTurn(currentPlayer);
         }
         else if (turn % 2 == 0) {
             currentPlayer = playerX;
             ++turn;
+            setTurn(currentPlayer);
         } else {
             currentPlayer = playerO;
             ++turn;
+            setTurn(currentPlayer);
         }
     };
+
+    const setPlayers = (playerXObj, playerOObj) =>{
+        playerX = playerXObj;
+        playerO = playerOObj;
+        checkTurn();
+    }
 
     const setTurn = (currentPlayer) => {
         const playerXTurn = document.querySelector('#x');
         const playerOTurn = document.querySelector('#o');
-        console.log(currentPlayer.getSign());
 
         if (currentPlayer.getSign() == 'X') {
             playerXTurn.classList.add("active");
@@ -138,10 +149,10 @@ const turnCounter = (() =>{
         }
     }
 
-    return {checkTurn, getCurrentPlayer, setTurn};
+    return {checkTurn, getCurrentPlayer, setTurn, setPlayers};
 })();
 
-const startGame = () => {
+const startGame = (() => {
     // default on page load and on reset / new game
     const modal = document.getElementById("newGame");
     const btn = document.getElementById("newGameBtn");
@@ -162,17 +173,12 @@ const startGame = () => {
         let playerXName = document.querySelector('#playerXName').value;
         let playerOName = document.querySelector('#playerOName').value;
 
-        console.log(playerXName);
-        console.log(playerOName);
-
         let playerX = Player(playerXName, 'X');
         let playerO = Player(playerOName, 'O');
-        console.log(playerX);
-        console.log(playerO);
 
         gameBoard.setNames(playerX, playerO)
     }
-}
+    return {createPlayers};
+})();
 
-startGame();
 // Global variables
