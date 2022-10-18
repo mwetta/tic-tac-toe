@@ -1,12 +1,23 @@
-
 const gameBoard = (() => {
-    const spaces = new Array(9).fill("");
+    let spaces = new Array(9).fill("");
     
     const boardSpaces = document.querySelectorAll('.space');
     boardSpaces.forEach((boardSpace) => {
         boardSpace.addEventListener('click', () => {
             let currentPlay = turnCounter.getCurrentPlayer();
             currentPlay.play(boardSpace.id, currentPlay.getSign());
+        })
+    })
+
+    boardSpaces.forEach((boardSpace) => {
+        boardSpace.addEventListener('mouseover', () => {
+            boardSpace.classList.add("active");
+        })
+    })
+    
+    boardSpaces.forEach((boardSpace) => {
+        boardSpace.addEventListener('mouseout', () => {
+            boardSpace.classList.remove("active");
         })
     })
 
@@ -69,9 +80,14 @@ const gameBoard = (() => {
         turnCounter.setPlayers(playerX, playerO);
     }
 
+    const resetSpaces = () => {
+        spaces = new Array(9).fill("");
+        // need to reset display 
+    }
+
     return {checkSpace, 
         checkWin,
-        resetSpaces() {spaces = new Array(9).fill("");},
+        resetSpaces,
         setNames
     };
 })();
@@ -162,9 +178,12 @@ const startGame = (() => {
         modal.style.display= "none";
         createPlayers();
     });
+
     btn.onclick = function(){
         modal.style.display = "block";
+        gameBoard.resetSpaces();
     }
+
     span.onclick = function() {
         modal.style.display = "none";
       }
