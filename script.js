@@ -45,7 +45,6 @@ const gameBoard = (() => {
         [2, 5, 8]
     ]
 
-    // still need to check for tie
     const checkWin = (plays) => {
         if (plays > 4) {
             alert('No one wins. It\'s a tie.'); 
@@ -67,7 +66,6 @@ const gameBoard = (() => {
                 turnCounter.checkTurn();
             } 
         }
-
     }
 
     const setNames = (playerX, playerO) => {
@@ -82,7 +80,10 @@ const gameBoard = (() => {
 
     const resetSpaces = () => {
         spaces = new Array(9).fill("");
-        // need to reset display 
+        boardSpaces.forEach((boardSpace) => {
+            boardSpace.textContent = "";
+        }) 
+        turnCounter.resetTurn();
     }
 
     return {checkSpace, 
@@ -162,7 +163,11 @@ const turnCounter = (() =>{
         }
     }
 
-    return {checkTurn, getCurrentPlayer, setTurn, setPlayers};
+    const resetTurn = () => {
+        turn = 0;
+    }
+
+    return {checkTurn, getCurrentPlayer, setTurn, setPlayers, resetTurn};
 })();
 
 const startGame = (() => {
