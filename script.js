@@ -78,11 +78,22 @@ const gameBoard = (() => {
         turnCounter.setPlayers(playerX, playerO);
     }
 
+
+
     const resetSpaces = () => {
         spaces = new Array(9).fill("");
         boardSpaces.forEach((boardSpace) => {
             boardSpace.textContent = "";
         }) 
+        resetNames();
+    }
+
+    const resetNames = () => {
+        let playerXName = document.querySelector('#playerXName');
+        let playerOName = document.querySelector('#playerOName');
+
+        playerXName.value = "";
+        playerOName.value="";
         turnCounter.resetTurn();
     }
 
@@ -171,7 +182,6 @@ const turnCounter = (() =>{
 })();
 
 const startGame = (() => {
-    // default on page load and on reset / new game
     const modal = document.getElementById("newGame");
     const btn = document.getElementById("newGameBtn");
     const span = document.getElementsByClassName("close")[0];
