@@ -1,23 +1,18 @@
 const gameBoard = (() => {
     let spaces = new Array(9).fill("");
     
+    // simplify the event listener
     const boardSpaces = document.querySelectorAll('.space');
     boardSpaces.forEach((boardSpace) => {
         boardSpace.addEventListener('click', () => {
             let currentPlay = turnCounter.getCurrentPlayer();
             currentPlay.play(boardSpace.id, currentPlay.getSign());
-        })
-    })
-
-    boardSpaces.forEach((boardSpace) => {
-        boardSpace.addEventListener('mouseover', () => {
-            boardSpace.classList.add("active");
-        })
-    })
-    
-    boardSpaces.forEach((boardSpace) => {
         boardSpace.addEventListener('mouseout', () => {
             boardSpace.classList.remove("active");
+            });
+        boardSpace.addEventListener('mouseover', () => {
+                boardSpace.classList.add("active");
+            });
         })
     })
 
@@ -51,6 +46,7 @@ const gameBoard = (() => {
         [2, 5, 8]
     ]
 
+    // still need to check for tie
     const checkWin = () => {
         let currentPlayer= turnCounter.getCurrentPlayer();
         console.log(currentPlayer);
@@ -124,6 +120,8 @@ const turnCounter = (() =>{
     let playerO;
 
     const getCurrentPlayer = () => currentPlayer;
+    // simplify code and add alert to check for draw
+    // can you combine setTurn and checkTurn
     const checkTurn = () => {
         if (turn == 0){
             currentPlayer = playerX;
@@ -199,5 +197,3 @@ const startGame = (() => {
     }
     return {createPlayers};
 })();
-
-// Global variables
